@@ -3,6 +3,7 @@ import {
   registerController,
   loginController,
   testController,
+  forgetPasswordController,
 } from "../controller/authenticationController.js";
 import {
   isAdmin,
@@ -17,6 +18,9 @@ router.post("/register", registerController);
 
 //LOGIN || POST
 router.post("/login", loginController);
+
+//FORGET PASSWORD
+router.post("/forget-password", forgetPasswordController);
 
 //TEST ROUTES
 router.get("/test", requireSignIn, isAdmin, testController);

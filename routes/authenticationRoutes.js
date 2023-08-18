@@ -20,13 +20,18 @@ router.post("/register", registerController);
 router.post("/login", loginController);
 
 //FORGET PASSWORD
-router.post("/forget-password", forgetPasswordController);
+router.post("/forgot-password", forgetPasswordController);
 
 //TEST ROUTES
 router.get("/test", requireSignIn, isAdmin, testController);
 
-//PROTECTED ROUTES
+//PROTECTED USER ROUTES
 router.get("/user-auth", requireSignIn, (request, response) => {
+  response.status(200).send({ ok: true });
+});
+
+//PROTECTED ADMIN ROUTES
+router.get("/admin-auth", requireSignIn, isAdmin, (request, response) => {
   response.status(200).send({ ok: true });
 });
 

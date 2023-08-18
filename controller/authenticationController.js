@@ -7,7 +7,7 @@ import JWT from "jsonwebtoken";
 
 export const registerController = async (request, response) => {
   try {
-    const { name, email, password, phone, address } = request.body;
+    const { name, email, password, phone, address, answer } = request.body;
     //validations
     if (!name) {
       return response.send({ message: "Name is required" });
@@ -19,10 +19,13 @@ export const registerController = async (request, response) => {
       return response.send({ message: "Password is required" });
     }
     if (!phone) {
-      return response.send({ messager: "Phone number is required" });
+      return response.send({ message: "Phone number is required" });
     }
     if (!address) {
       return response.send({ message: "Address is required" });
+    }
+    if (!answer) {
+      return response.send("Please enter your answer of security question");
     }
 
     //check user
@@ -46,6 +49,7 @@ export const registerController = async (request, response) => {
       phone,
       address,
       password: hashedPassword,
+      answer,
     }).save();
 
     response.status(201).send({
@@ -104,6 +108,7 @@ export const loginController = async (request, response) => {
         email: user.email,
         phone: user.phone,
         address: user.address,
+        role: user.role,
       },
       token,
     });
@@ -120,12 +125,12 @@ export const loginController = async (request, response) => {
 //forget password controller
 export const forgetPasswordController = async (request, response) => {
   try {
-    const { email, question, newPassword } = req.body;
+    const { email, answer, newPassword } = request.body;
     if (!email) {
       response.status(400).send({ message: "Email is required" });
     }
-    if (!question) {
-      response.status(400).send({ message: "Question is required" });
+    if (!answer) {
+      response.status(400).send({ message: "Answer is required" });
     }
     if (!newPassword) {
       response.status(400).send({ message: "New password is required" });
